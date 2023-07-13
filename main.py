@@ -116,6 +116,7 @@ class principal_player(Ship):
 
     def move_lasers(self, velocity, objs):
         # Check if the lasers have kicked an enemy
+        global score
         self.cooldown()
         for laser in self.lasers:
             laser.move(velocity)
@@ -125,6 +126,7 @@ class principal_player(Ship):
                 for obj in objs:
                     if laser.collision(obj):
                         objs.remove(obj)
+                        score += 1
                         if laser in self.lasers:
                             self.lasers.remove(laser)
 
@@ -193,6 +195,9 @@ def collide(obj1, obj2):
     return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) is not None
 
 
+score = 0
+
+
 def main_game():
     # Both
     laser_velocity = 4
@@ -213,7 +218,7 @@ def main_game():
     lost = False
     lost_count = 0
     level = 0
-    score = 0
+    global score
     clock = pygame.time.Clock()
     scroll = 0  # Variable para controlar el desplazamiento del fondo
     scroll_velocity = 0
